@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATMTA - Real Estate Redefined</title>
+    <style>
+        @font-face {
+        font-family: 'VariableFont_slnt';
+        src: url('./Fonts/Inter/Inter-VariableFont_slnt\,wght.ttf') format('truetype');
+        font-weight: 300;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'SpaceGrotesk';
+        src: url('./Fonts/Space\ Grotesk/Variable/SpaceGrotesk-Variable.ttf') format('truetype');
+        /* font-weight: 300; */
+        /* font-style: normal; */
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background-color: #193035;
+        }
+
+        /* Loading Page Styles */
+        .loading-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #193035 0%, #193035 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+            /* animation: slideInUp 1s ease-out forwards; */
+
+        }
+
+        .loading-page.fade-out {
+            /* opacity: 0; */
+            pointer-events: none;
+            animation: slideInUp 1.2s ease-out forwards;
+        }
+
+        .logo-container {
+            position: relative;
+        }
+
+        /* Animated ATMTA Logo */
+        .atmta-logo {
+            /* font-size: clamp(3rem, 8vw, 6rem); */
+            /* font-weight: 300; */
+            /* letter-spacing: 0.2em; */
+            /* color: #ffffff; */
+            /* opacity: 0; */
+            animation: logoFadeIn 1s ease-out forwards;
+            /* width: 179px; */
+        }
+
+        @keyframes logoFadeIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05) translateY(-5px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Coming Soon Page Styles */
+        .coming-soon-page {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #193035 0%, #193035 100%);
+            /* display: none; */
+            overflow: hidden;
+        }
+
+        .coming-soon-page.active {
+            animation: slide2InUp 1s ease-out forwards;
+            /* display: block; */
+        }
+
+        /* Video Background */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            /* opacity: 0.3; */
+        }
+
+        /* Content Overlay */
+        .content-overlay {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* padding: 2rem; */
+            padding: 2rem 4rem;
+            /* background: linear-gradient(
+                135deg, 
+                rgba(44, 74, 71, 0.8) 0%, 
+                rgba(26, 47, 45, 0.9) 100%
+            ); */
+            /* mask-image: url('./Subtract.svg'); */
+            background-image: url('./Subtract.svg');
+            background-size: cover;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header .atmta-logo {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            animation: none;
+            opacity: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            /* justify-content: center; */
+            max-width: 800px;
+            justify-content: start;
+            padding: 130px 0px;
+        }
+
+        .main-title {
+            /* font-size: clamp(2.5rem, 8vw, 5rem); */
+            font-family: 'SpaceGrotesk';
+            font-weight: 500; /*bold;*/
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            /* font-weight: 300; */
+            line-height: 1.1;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            opacity: 0;
+            /* animation: slideInLeft 1s ease-out 0.5s forwards; */
+            animation: slideInLeft 8s ease-out 0.5s forwards;
+        }
+
+        .subtitle {
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            /* font-weight: 300; */
+            font-family: 'SpaceGrotesk';
+            font-weight: 500; /*bold;*/
+            color: #ffffff;
+            opacity: 0;
+            /* animation: slideInLeft 1s ease-out 0.7s forwards; */
+            animation: slideInLeft 8s ease-out 0.7s forwards;
+        }
+
+        @keyframes slideInLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes slideInUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-1500px);
+            }
+        }
+        @keyframes slide2InUp {
+            0% {
+                opacity: 1;
+                transform: translateY(100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+
+        /* Stay Tuned Badge */
+        .stay-tuned-badge {
+            position: absolute;
+            bottom: 4rem;
+            right: 4rem;
+            width: 110px; /*80px;*/
+            height: 110px; /*80px;*/
+            /* border: 2px solid #ffffff; */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #ffffff;
+            text-align: center;
+            line-height: 1.2;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            animation: fadeInRotate 8s ease-out 1s forwards;
+            z-index: 3;
+            background: linear-gradient(
+                135deg, 
+                #193035 0%, 
+                #0C0C0C 100%
+            ); 
+        }
+        #circular-text {
+        /* position: absolute;
+        width: 100%;
+        height: 100%;
+        font-size: 0.6rem;
+        font-weight: 300; */
+        font-family: 'SpaceGrotesk';
+        position: relative;
+        width: 100%;
+        height: 100%;
+        font-size: 0.8rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        pointer-events: none;
+
+
+        }
+
+        #circular-text span {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        /* transform-origin: 0 50px // ; half of badge height */
+        transform-origin: 0px 55px; /* half of badge height */
+        white-space: pre;
+        padding: 5px 0; /* new */
+        }
+
+        @keyframes fadeInRotate {
+            0% {
+                opacity: 0;
+                transform: rotate(-180deg) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .content-overlay {
+                padding: 1.5rem;
+                background-position-x: -300px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .atmta-logo {
+            width: 179px;
+        }
+
+            .stay-tuned-badge {
+                width: 110px;
+                height: 110px;
+                font-size: 0.6rem;
+                /* bottom: 1.5rem;
+                right: 1.5rem; */
+                right: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-overlay {
+                /* padding: 1rem; */
+                padding: 2rem 3rem;
+            }
+
+            .main-title {
+                margin-bottom: 0.5rem;
+            }
+
+            .stay-tuned-badge {
+                /* width: 50px;
+                height: 50px; */
+                width: 110px;
+                height: 110px;
+                /* font-size: 0.5rem;
+                bottom: 1rem;
+                right: 1rem; */
+                right: 3rem;
+            }
+        }
+
+        /* Landscape mobile orientation */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .main-content {
+                justify-content: flex-start;
+                padding-top: 2rem;
+            }
+
+            .stay-tuned-badge {
+                width: 110px;
+                height: 110px;
+                font-size: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Page -->
+    <div class="loading-page" id="loadingPage">
+        <div class="logo-container" style="width: 100%;">
+            <!-- <div class="atmta-logo">ATMTA</div> -->
+            <!-- <img class="" src="./ATMTA Logo Animation.svg"> -->
+            <!-- <iframe src="./ATMTA Logo Animation.svg"></iframe> -->
+            <object type="image/svg+xml" data="./ATMTA Logo Animation.svg"></object>
+
+
+        </div>
+    </div>
+
+    <!-- Coming Soon Page -->
+    <div class="coming-soon-page" id="comingSoonPage">
+        <!-- Video Background Placeholder -->
+        <video class="video-background" autoplay muted loop playsinline>
+            <!-- Replace with your actual video file -->
+            <source id="video-background-desktop" src="./atmta_final_loopable_1.mp4" type="video/mp4">
+            <!-- <source id="video-background-mobile" src="./ATMTA Vertical Video (9x16).mp4" type="video/mp4"> -->
+            <!-- Fallback for browsers that don't support video -->
+        </video>
+
+        <!-- Content Overlay -->
+        <div class="content-overlay">
+            <!-- Header -->
+            <header class="header">
+                <!-- <div class="atmta-logo">ATMTA</div> -->
+                <img class="atmta-logo" src="./ATMTA_logo.svg">
+
+            </header>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <h1 class="main-title">Real Estate.</h1>
+                <h2 class="subtitle">Redefined.</h2>
+            </main>
+
+            <!-- Stay Tuned Badge -->
+            <!-- <div class="stay-tuned-badge">
+                STAY TUNED • STAY TUNED • 
+            </div> -->
+            <div class="stay-tuned-badge">
+                <p id="circular-text">STAY TUNED • STAY TUNED • </p>
+              </div>
+        </div>
+    </div>
+
+    <script>
+        // Page transition logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingPage = document.getElementById('loadingPage');
+            const comingSoonPage = document.getElementById('comingSoonPage');
+
+            // Show coming soon page after 1 second
+            setTimeout(() => {
+                loadingPage.classList.add('fade-out');
+                comingSoonPage.classList.add('active');
+
+                // Remove loading page and show coming soon page after fade animation
+                setTimeout(() => {
+                    loadingPage.style.display = 'none';
+                    // comingSoonPage.classList.add('active');
+                    document.body.style.overflow = 'auto';
+                }, 500); // Wait for fade-out animation to complete
+            }, 4000); // 1 second delay
+        });
+
+        // Prevent scrolling during loading
+        document.body.style.overflow = 'hidden';
+
+
+        //stay-tuned-badge
+        const text = document.getElementById("circular-text");
+        const str = text.textContent.trim();
+        text.textContent = "";
+
+        const deg = 360 / str.length;
+
+        [...str].forEach((char, i) => {
+            const span = document.createElement("span");
+            span.textContent = char;
+            span.style.transform = `rotate(${(i * deg)-75}deg)`;
+            text.appendChild(span);
+        });
+    </script>
+</body>
+</html>
